@@ -25,7 +25,8 @@ public class ActualizarProfesorServlet extends HttpServlet {
             String fecha = request.getParameter("fecha_contratacion");
             double salario = Double.parseDouble(request.getParameter("salario"));
             int activo = Integer.parseInt(request.getParameter("activo"));
-            int supervisor = Integer.parseInt(request.getParameter("id_supervisor"));
+
+            String supStr = request.getParameter("id_supervisor");
 
             Connection con = DBConnection.getConnection();
 
@@ -40,7 +41,13 @@ public class ActualizarProfesorServlet extends HttpServlet {
             ps.setString(5, fecha);
             ps.setDouble(6, salario);
             ps.setInt(7, activo);
-            ps.setInt(8, supervisor);
+
+            if (supStr == null || supStr.isEmpty() || supStr.equals("0")) {
+                ps.setNull(8, java.sql.Types.INTEGER);
+            } else {
+                ps.setInt(8, Integer.parseInt(supStr));
+            }
+
             ps.setInt(9, id);
 
             ps.executeUpdate();
@@ -49,6 +56,8 @@ public class ActualizarProfesorServlet extends HttpServlet {
 
         } catch (Exception e) {
             e.printStackTrace();
+            response.setContentType("text/html");
+            response.getWriter().println("ERROR: " + e.getMessage());
         }
     }
 }
