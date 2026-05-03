@@ -2,7 +2,6 @@ package servlet;
 
 import utils.DBConnection;
 
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
@@ -11,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 @WebServlet("/alta-matricula")
-@MultipartConfig
 public class AltaMatriculaServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -19,17 +17,31 @@ public class AltaMatriculaServlet extends HttpServlet {
 
         try {
 
+            String alumnoStr = request.getParameter("id_alumno");
+            String cursoStr = request.getParameter("id_curso");
+
+            if (alumnoStr == null || alumnoStr.isEmpty() || cursoStr == null || cursoStr.isEmpty()) {
+                response.getWriter().println("ERROR: alumno y curso obligatorios");
+                return;
+            }
+
+            int alumno = Integer.parseInt(alumnoStr);
+            int curso = Integer.parseInt(cursoStr);
+
             String fecha = request.getParameter("fecha_matricula");
             String estado = request.getParameter("estado");
-            int pagado = Integer.parseInt(request.getParameter("pagado"));
+
+            String pagadoStr = request.getParameter("pagado");
+            int pagado = (pagadoStr == null || pagadoStr.isEmpty()) ? 0 : Integer.parseInt(pagadoStr);
+
             String notaStr = request.getParameter("nota_final");
             double nota = (notaStr == null || notaStr.isEmpty()) ? 0 : Double.parseDouble(notaStr);
+
             String importeStr = request.getParameter("importe_total");
             double importe = (importeStr == null || importeStr.isEmpty()) ? 0 : Double.parseDouble(importeStr);
+
             String metodo = request.getParameter("metodo_pago");
             String baja = request.getParameter("fecha_baja");
-            int alumno = Integer.parseInt(request.getParameter("id_alumno"));
-            int curso = Integer.parseInt(request.getParameter("id_curso"));
 
             Connection con = DBConnection.getConnection();
 
@@ -37,13 +49,24 @@ public class AltaMatriculaServlet extends HttpServlet {
                     "INSERT INTO matricula (fecha_matricula, estado, pagado, nota_final, importe_total, metodo_pago, fecha_baja, id_alumno, id_curso) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
             );
 
-            ps.setString(1, fecha);
+            if (fecha == null || fecha.isEmpty()) {
+                ps.setNull(1, java.sql.Types.DATE);
+            } else {
+                ps.setString(1, fecha);
+            }
+
             ps.setString(2, estado);
             ps.setInt(3, pagado);
             ps.setDouble(4, nota);
             ps.setDouble(5, importe);
             ps.setString(6, metodo);
-            ps.setString(7, baja);
+
+            if (baja == null || baja.isEmpty()) {
+                ps.setNull(7, java.sql.Types.DATE);
+            } else {
+                ps.setString(7, baja);
+            }
+
             ps.setInt(8, alumno);
             ps.setInt(9, curso);
 
@@ -53,6 +76,7 @@ public class AltaMatriculaServlet extends HttpServlet {
 
         } catch (Exception e) {
             e.printStackTrace();
+            response.getWriter().println("ERROR: " + e.getMessage());
         }
     }
 }

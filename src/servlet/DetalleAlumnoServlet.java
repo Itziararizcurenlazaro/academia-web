@@ -50,7 +50,8 @@ public class DetalleAlumnoServlet extends HttpServlet {
                     out.println("<p><b>Foto:</b></p>");
                     out.println("<img src='imagenes/" + foto + "' width='150'>");
                 }
-
+                out.println("<a href='editar-alumno?id=" + rs.getInt("id") + "' class='btn btn-warning'>Editar</a> ");
+                out.println("<a href='borrar-alumno?id=" + rs.getInt("id") + "' class='btn btn-danger' onclick='return confirm(\"¿Seguro?\")'>Borrar</a><br><br>");
                 out.println("<br><a href='alumnos' class='btn btn-secondary mt-3'>Volver</a>");
 
                 out.println("</div>");

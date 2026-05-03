@@ -2,7 +2,6 @@ package servlet;
 
 import utils.DBConnection;
 
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
@@ -10,9 +9,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
-
 @WebServlet("/alta-curso")
-@MultipartConfig
 public class AltaCursoServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -22,12 +19,22 @@ public class AltaCursoServlet extends HttpServlet {
 
             String nombre = request.getParameter("nombre");
             String tipo = request.getParameter("tipo_manualidad");
+
+            if (nombre == null || nombre.isEmpty() || tipo == null || tipo.isEmpty()) {
+                response.getWriter().println("ERROR: nombre y tipo obligatorios");
+                return;
+            }
+
             String nivel = request.getParameter("nivel");
-            int duracion = Integer.parseInt(request.getParameter("duracion_horas"));
-            double precio = Double.parseDouble(request.getParameter("precio"));
+            String duracionStr = request.getParameter("duracion_horas");
+            String precioStr = request.getParameter("precio");
             String fecha = request.getParameter("fecha_inicio");
-            int activo = Integer.parseInt(request.getParameter("activo"));
-            int profesor = Integer.parseInt(request.getParameter("id_profesor"));
+            String activoStr = request.getParameter("activo");
+            String profesorStr = request.getParameter("id_profesor");
+
+            int duracion = (duracionStr == null || duracionStr.isEmpty()) ? 0 : Integer.parseInt(duracionStr);
+            double precio = (precioStr == null || precioStr.isEmpty()) ? 0 : Double.parseDouble(precioStr);
+            int activo = (activoStr == null || activoStr.isEmpty()) ? 1 : Integer.parseInt(activoStr);
 
             Connection con = DBConnection.getConnection();
 
@@ -42,7 +49,12 @@ public class AltaCursoServlet extends HttpServlet {
             ps.setDouble(5, precio);
             ps.setString(6, fecha);
             ps.setInt(7, activo);
-            ps.setInt(8, profesor);
+
+            if (profesorStr == null || profesorStr.isEmpty()) {
+                ps.setNull(8, java.sql.Types.INTEGER);
+            } else {
+                ps.setInt(8, Integer.parseInt(profesorStr));
+            }
 
             ps.executeUpdate();
 
@@ -50,6 +62,7 @@ public class AltaCursoServlet extends HttpServlet {
 
         } catch (Exception e) {
             e.printStackTrace();
+            response.getWriter().println("ERROR: " + e.getMessage());
         }
     }
 }

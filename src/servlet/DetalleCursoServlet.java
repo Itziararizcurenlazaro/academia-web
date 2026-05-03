@@ -44,6 +44,8 @@ public class DetalleCursoServlet extends HttpServlet {
                 out.println("<p><b>Activo:</b> " + rs.getBoolean("activo") + "</p>");
                 out.println("<p><b>ID Profesor:</b> " + rs.getInt("id_profesor") + "</p>");
 
+                out.println("<a href='editar-curso?id=" + rs.getInt("id") + "' class='btn btn-warning'>Editar</a> ");
+                out.println("<a href='borrar-curso?id=" + rs.getInt("id") + "' class='btn btn-danger' onclick='return confirm(\"¿Seguro?\")'>Borrar</a><br><br>");
                 out.println("<a href='cursos' class='btn btn-secondary mt-3'>Volver</a>");
 
                 out.println("</div>");

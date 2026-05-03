@@ -52,7 +52,8 @@ public class DetalleMatriculaServlet extends HttpServlet {
                 out.println("<p><b>Método:</b> " + rs.getString("metodo_pago") + "</p>");
                 out.println("<p><b>Fecha matrícula:</b> " + rs.getDate("fecha_matricula") + "</p>");
                 out.println("<p><b>Fecha baja:</b> " + rs.getDate("fecha_baja") + "</p>");
-
+                out.println("<a href='editar-matricula?id=" + rs.getInt("id") + "' class='btn btn-warning'>Editar</a> ");
+                out.println("<a href='borrar-matricula?id=" + rs.getInt("id") + "' class='btn btn-danger' onclick='return confirm(\"¿Seguro?\")'>Borrar</a><br><br>");
                 out.println("<a href='matriculas' class='btn btn-secondary mt-3'>Volver</a>");
 
                 out.println("</div>");
