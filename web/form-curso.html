@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alta Curso</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="container mt-5">
+
+<h2>Nuevo Curso</h2>
+
+<form action="alta-curso" method="post">
+
+<input name="nombre" class="form-control mb-2" placeholder="Nombre" required>
+<input name="tipo_manualidad" class="form-control mb-2" placeholder="Tipo manualidad" required>
+
+<select name="nivel" class="form-control mb-2">
+<option>basico</option>
+<option>medio</option>
+<option>avanzado</option>
+</select>
+
+<input name="duracion_horas" type="number" class="form-control mb-2" placeholder="Duración">
+<input name="precio" type="number" step="0.01" class="form-control mb-2" placeholder="Precio">
+
+<input type="date" name="fecha_inicio" class="form-control mb-2">
+
+<select name="activo" class="form-control mb-2">
+<option value="1">Activo</option>
+<option value="0">Inactivo</option>
+</select>
+
+<input name="id_profesor" type="number" class="form-control mb-2" placeholder="ID Profesor">
+
+<button class="btn btn-primary">Guardar</button>
+
+</form>
+
+</body>
+</html>
