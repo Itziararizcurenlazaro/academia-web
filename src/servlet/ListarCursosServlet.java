@@ -17,6 +17,8 @@ public class ListarCursosServlet extends HttpServlet {
 
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession();
+        String rol = (String) session.getAttribute("rol");
 
         try {
 
@@ -37,11 +39,13 @@ public class ListarCursosServlet extends HttpServlet {
             out.println("</nav>");
 
             out.println("<div class='container mt-4'>");
+            out.println("<a href='index.html' class='btn btn-outline-secondary mb-3'>← Inicio</a>");
 
             out.println("<h2>Lista de cursos</h2>");
 
-            out.println("<a href='form-curso.html' class='btn btn-success mb-3'>Nuevo curso</a>");
-
+            if ("admin".equals(rol)) {
+                out.println("<a href='form-curso.html' class='btn btn-success mb-3'>Nuevo curso</a>");
+            }
             out.println("<table class='table table-hover table-bordered'>");
 
             out.println("<tr>");
@@ -71,8 +75,11 @@ public class ListarCursosServlet extends HttpServlet {
 
                 out.println("<td>");
                 out.println("<a href='detalle-curso?id=" + rs.getInt("id") + "' class='btn btn-info btn-sm'>Ver</a> ");
-                out.println("<a href='editar-curso?id=" + rs.getInt("id") + "' class='btn btn-warning btn-sm'>Editar</a> ");
-                out.println("<a href='borrar-curso?id=" + rs.getInt("id") + "' class='btn btn-danger btn-sm'>Borrar</a>");
+
+                if ("admin".equals(rol)) {
+                    out.println("<a href='editar-curso?id=" + rs.getInt("id") + "' class='btn btn-warning btn-sm'>Editar</a> ");
+                    out.println("<a href='borrar-curso?id=" + rs.getInt("id") + "' class='btn btn-danger btn-sm'>Borrar</a>");
+                }
                 out.println("</td>");
 
                 out.println("</tr>");

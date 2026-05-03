@@ -19,6 +19,8 @@ public class DetalleProfesorServlet extends HttpServlet {
 
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession();
+        String rol = (String) session.getAttribute("rol");
 
         try {
             Connection con = DBConnection.getConnection();
@@ -44,6 +46,10 @@ public class DetalleProfesorServlet extends HttpServlet {
                 out.println("<p><b>Activo:</b> " + rs.getBoolean("activo") + "</p>");
                 out.println("<p><b>ID Supervisor:</b> " + rs.getInt("id_supervisor") + "</p>");
 
+                if ("admin".equals(rol)) {
+                    out.println("<a href='editar-profesor?id=" + id + "' class='btn btn-warning'>Editar</a> ");
+                    out.println("<a href='borrar-profesor?id=" + id + "' class='btn btn-danger'>Borrar</a>");
+                }
                 out.println("<a href='profesores' class='btn btn-secondary mt-3'>Volver</a>");
 
                 out.println("</div>");
