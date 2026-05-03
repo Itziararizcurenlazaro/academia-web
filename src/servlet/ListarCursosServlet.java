@@ -27,6 +27,8 @@ public class ListarCursosServlet extends HttpServlet {
 
         out.println("<h1>Lista de cursos</h1>");
 
+        out.println("<a href='form-curso.html' class='btn btn-success mb-3'>Nuevo curso</a>");
+
         out.println("<table class='table table-striped'>");
         out.println("<tr>");
         out.println("<th>ID</th>");
@@ -50,6 +52,11 @@ public class ListarCursosServlet extends HttpServlet {
                 out.println("<td>" + rs.getDouble("precio") + "</td>");
                 out.println("<td>" + rs.getDate("fecha_inicio") + "</td>");
                 out.println("<td>" + rs.getBoolean("activo") + "</td>");
+                out.println("<td>");
+                out.println("<a href='detalle-curso?id=" + rs.getInt("id") + "' class='btn btn-info btn-sm'>Ver</a> ");
+                out.println("<a href='editar-curso?id=" + rs.getInt("id") + "' class='btn btn-warning btn-sm'>Editar</a> ");
+                out.println("<a href='borrar-curso?id=" + rs.getInt("id") + "' class='btn btn-danger btn-sm' onclick='return confirm(\"¿Seguro?\")'>Borrar</a>");
+                out.println("</td>");
                 out.println("</tr>");
             }
         } catch (Exception e) {
