@@ -19,12 +19,15 @@ public class ListarCursosServlet extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 
+        out.println("<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>");
+        out.println("<div class='container mt-4'>");
+
         CursoDAO dao = new CursoDAO();
         ResultSet rs = dao.listarCursos();
 
         out.println("<h1>Lista de cursos</h1>");
 
-        out.println("<table border='1'>");
+        out.println("<table class='table table-striped'>");
         out.println("<tr>");
         out.println("<th>ID</th>");
         out.println("<th>Nombre</th>");
@@ -54,5 +57,6 @@ public class ListarCursosServlet extends HttpServlet {
         }
 
         out.println("</table");
+        out.println("</div>");
     }
 }
