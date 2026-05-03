@@ -61,8 +61,9 @@ public class ListarAlumnosServlet extends HttpServlet {
                 out.println("<td>" + rs.getString("direccion") + "</td>");
 
                 out.println("<td>");
+                out.println("<a href='detalle-alumno?id=" + rs.getInt("id") + "' class='btn btn-info btn-sm'>Ver</a> ");
                 out.println("<a href='editar-alumno?id=" + rs.getInt("id") + "' class='btn btn-warning btn-sm'>Editar</a> ");
-                out.println("<a href='borrar-alumno?id=" + rs.getInt("id") + "' class='btn btn-danger btn-sm'>Borrar</a>");
+                out.println("<a href='borrar-alumno?id=" + rs.getInt("id") + "' class='btn btn-danger btn-sm' onclick='return confirm(\"¿Seguro?\")'>Borrar</a>");
                 out.println("</td>");
 
                 out.println("</tr>");

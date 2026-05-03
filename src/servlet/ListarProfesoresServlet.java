@@ -27,7 +27,10 @@ public class ListarProfesoresServlet extends HttpServlet {
 
         out.println("<h1>Lista de profesores</h1>");
 
+        out.println("<a href='form-profesor.html' class='btn btn-success mb-3'>Nuevo profesor</a>");
+
         out.println("<table class='table table-striped'>");
+
         out.println("<tr>");
         out.println("<th>ID</th>");
         out.println("<th>Nombre</th>");
@@ -37,6 +40,7 @@ public class ListarProfesoresServlet extends HttpServlet {
         out.println("<th>Fecha contratacion</th>");
         out.println("<th>Salario</th>");
         out.println("<th>Activo</th>");
+        out.println("<th>Acciones</th>");
         out.println("</tr>");
 
         try {
@@ -50,6 +54,11 @@ public class ListarProfesoresServlet extends HttpServlet {
                 out.println("<td>" + rs.getDate("fecha_contratacion") + "</td>");
                 out.println("<td>" + rs.getDouble("salario") + "</td>");
                 out.println("<td>" + rs.getBoolean("activo") + "</td>");
+                out.println("<td>");
+                out.println("<a href='detalle-profesor?id=" + rs.getInt("id") + "' class='btn btn-info btn-sm'>Ver</a> ");
+                out.println("<a href='editar-profesor?id=" + rs.getInt("id") + "' class='btn btn-warning btn-sm'>Editar</a> ");
+                out.println("<a href='borrar-profesor?id=" + rs.getInt("id") + "' class='btn btn-danger btn-sm' onclick='return confirm(\"¿Seguro?\")'>Borrar</a>");
+                out.println("</td>");
                 out.println("</tr>");
             }
         } catch (Exception e) {

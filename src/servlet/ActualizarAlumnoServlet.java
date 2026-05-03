@@ -3,6 +3,7 @@ package servlet;
 import utils.DBConnection;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
@@ -11,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 @WebServlet("/actualizar-alumno")
+@MultipartConfig
 public class ActualizarAlumnoServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -30,11 +32,32 @@ public class ActualizarAlumnoServlet extends HttpServlet {
             String rol = request.getParameter("rol");
             int activo = Integer.parseInt(request.getParameter("activo"));
 
+            Part filePart = request.getPart("foto");
+            String fileName = filePart.getSubmittedFileName();
+
+            if (fileName != null && !fileName.isEmpty()) {
+
+                String ruta = getServletContext().getRealPath("") + "imagenes/";
+
+                java.io.File carpeta = new java.io.File(ruta);
+                if (!carpeta.exists()) {
+                    carpeta.mkdirs();
+                }
+
+                filePart.write(ruta + fileName);
+            }
+
             Connection con = DBConnection.getConnection();
 
-            PreparedStatement ps = con.prepareStatement(
-                    "UPDATE alumno SET nombre=?, apellidos=?, email=?, password=?, telefono=?, direccion=?, fecha_nacimiento=?, nivel=?, rol=?, activo=? WHERE id=?"
-            );
+            String sql;
+
+            if (fileName != null && !fileName.isEmpty()) {
+                sql = "UPDATE alumno SET nombre=?, apellidos=?, email=?, password=?, telefono=?, direccion=?, fecha_nacimiento=?, nivel=?, rol=?, activo=?, foto=? WHERE id=?";
+            } else {
+                sql = "UPDATE alumno SET nombre=?, apellidos=?, email=?, password=?, telefono=?, direccion=?, fecha_nacimiento=?, nivel=?, rol=?, activo=? WHERE id=?";
+            }
+
+            PreparedStatement ps = con.prepareStatement(sql);
 
             ps.setString(1, nombre);
             ps.setString(2, apellidos);
@@ -46,7 +69,13 @@ public class ActualizarAlumnoServlet extends HttpServlet {
             ps.setString(8, nivel);
             ps.setString(9, rol);
             ps.setInt(10, activo);
-            ps.setInt(11, id);
+
+            if (fileName != null && !fileName.isEmpty()) {
+                ps.setString(11, fileName);
+                ps.setInt(12, id);
+            } else {
+                ps.setInt(11, id);
+            }
 
             ps.executeUpdate();
 
@@ -54,6 +83,8 @@ public class ActualizarAlumnoServlet extends HttpServlet {
 
         } catch (Exception e) {
             e.printStackTrace();
+            response.setContentType("text/html");
+            response.getWriter().println("ERROR: " + e.getMessage());
         }
     }
 }

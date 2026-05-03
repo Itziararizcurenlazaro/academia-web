@@ -3,6 +3,7 @@ package servlet;
 import utils.DBConnection;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
@@ -11,6 +12,7 @@ import java.io.PrintWriter;
 import java.sql.*;
 
 @WebServlet("/editar-alumno")
+@MultipartConfig
 public class EditarAlumnoServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -35,7 +37,7 @@ public class EditarAlumnoServlet extends HttpServlet {
 
                 out.println("<h2>Editar Alumno</h2>");
 
-                out.println("<form action='actualizar-alumno' method='post'>");
+                out.println("<form action='actualizar-alumno' method='post' enctype='multipart/form-data'>");
 
                 out.println("<input type='hidden' name='id' value='" + rs.getInt("id") + "'>");
 
@@ -62,6 +64,8 @@ public class EditarAlumnoServlet extends HttpServlet {
                 out.println("<option value='1' " + (rs.getBoolean("activo") ? "selected" : "") + ">Activo</option>");
                 out.println("<option value='0' " + (!rs.getBoolean("activo") ? "selected" : "") + ">Inactivo</option>");
                 out.println("</select>");
+
+                out.println("<input type='file' name='foto' class='form-control mb-2'>");
 
                 out.println("<button class='btn btn-primary'>Actualizar</button>");
                 out.println("</form>");
