@@ -19,6 +19,8 @@ public class DetalleMatriculaServlet extends HttpServlet {
 
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession();
+        String rol = (String) session.getAttribute("rol");
 
         try {
             Connection con = DBConnection.getConnection();
@@ -53,6 +55,10 @@ public class DetalleMatriculaServlet extends HttpServlet {
                 out.println("<p><b>Fecha matrícula:</b> " + rs.getDate("fecha_matricula") + "</p>");
                 out.println("<p><b>Fecha baja:</b> " + rs.getDate("fecha_baja") + "</p>");
 
+                if ("admin".equals(rol)) {
+                    out.println("<a href='editar-matricula?id=" + id + "' class='btn btn-warning'>Editar</a> ");
+                    out.println("<a href='borrar-matricula?id=" + id + "' class='btn btn-danger'>Borrar</a>");
+                }
                 out.println("<a href='matriculas' class='btn btn-secondary mt-3'>Volver</a>");
 
                 out.println("</div>");

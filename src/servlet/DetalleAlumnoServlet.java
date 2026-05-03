@@ -19,6 +19,8 @@ public class DetalleAlumnoServlet extends HttpServlet {
 
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession();
+        String rol = (String) session.getAttribute("rol");
 
         try {
             Connection con = DBConnection.getConnection();
@@ -51,6 +53,10 @@ public class DetalleAlumnoServlet extends HttpServlet {
                     out.println("<img src='imagenes/" + foto + "' width='150'>");
                 }
 
+                if ("admin".equals(rol)) {
+                    out.println("<a href='editar-alumno?id=" + id + "' class='btn btn-warning'>Editar</a> ");
+                    out.println("<a href='borrar-alumno?id=" + id + "' class='btn btn-danger'>Borrar</a>");
+                }
                 out.println("<br><a href='alumnos' class='btn btn-secondary mt-3'>Volver</a>");
 
                 out.println("</div>");
