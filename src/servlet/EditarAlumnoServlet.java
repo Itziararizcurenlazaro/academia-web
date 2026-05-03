@@ -43,26 +43,21 @@ public class EditarAlumnoServlet extends HttpServlet {
                 out.println("<input class='form-control mb-2' name='apellidos' value='" + rs.getString("apellidos") + "'>");
                 out.println("<input class='form-control mb-2' name='email' value='" + rs.getString("email") + "'>");
                 out.println("<input class='form-control mb-2' name='password' value='" + rs.getString("password") + "'>");
-
                 out.println("<input class='form-control mb-2' name='telefono' value='" + rs.getString("telefono") + "'>");
                 out.println("<input class='form-control mb-2' name='direccion' value='" + rs.getString("direccion") + "'>");
-
                 out.println("<input class='form-control mb-2' type='date' name='fecha_nacimiento' value='" + rs.getDate("fecha_nacimiento") + "'>");
 
-                // nivel
                 out.println("<select class='form-control mb-2' name='nivel'>");
                 out.println("<option " + (rs.getString("nivel").equals("principiante") ? "selected" : "") + ">principiante</option>");
                 out.println("<option " + (rs.getString("nivel").equals("intermedio") ? "selected" : "") + ">intermedio</option>");
                 out.println("<option " + (rs.getString("nivel").equals("avanzado") ? "selected" : "") + ">avanzado</option>");
                 out.println("</select>");
 
-                // rol
                 out.println("<select class='form-control mb-2' name='rol'>");
                 out.println("<option " + (rs.getString("rol").equals("alumno") ? "selected" : "") + ">alumno</option>");
                 out.println("<option " + (rs.getString("rol").equals("admin") ? "selected" : "") + ">admin</option>");
                 out.println("</select>");
 
-                // activo
                 out.println("<select class='form-control mb-2' name='activo'>");
                 out.println("<option value='1' " + (rs.getBoolean("activo") ? "selected" : "") + ">Activo</option>");
                 out.println("<option value='0' " + (!rs.getBoolean("activo") ? "selected" : "") + ">Inactivo</option>");
