@@ -7,7 +7,7 @@ public class DBConnection {
 
     private static final String URL = "jdbc:mariadb://localhost:3307/academia";
     private static final String USER = "root";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "123456";
 
     public static Connection getConnection() {
         Connection con = null;
