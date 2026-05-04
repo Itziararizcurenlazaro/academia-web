@@ -9,6 +9,7 @@ Incluye:
 - Sistema de login con roles (admin / alumno)
 - Búsqueda avanzada con múltiples criterios
 - Subida de imágenes (solo hay una imagen de ejemplo en el usuario Ana Gomez)
+- Mensaje de confirmacion de edicion o borrado
 - Interfaz con Bootstrap
 
 # Tecnologías utilizadas
