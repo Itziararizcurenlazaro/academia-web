@@ -116,8 +116,8 @@ public class ListarCursosServlet extends HttpServlet {
                 out.println("<a href='detalle-curso?id=" + rs.getInt("id") + "' class='btn btn-info btn-sm'>Ver</a> ");
 
                 if ("admin".equals(rol)) {
-                    out.println("<a href='editar-curso?id=" + rs.getInt("id") + "' class='btn btn-warning btn-sm'>Editar</a> ");
-                    out.println("<a href='borrar-curso?id=" + rs.getInt("id") + "' class='btn btn-danger btn-sm'>Borrar</a>");
+                    out.println("<a href='editar-curso?id=" + rs.getInt("id") + "' class='btn btn-warning btn-sm' onclick=\"return confirm('¿Seguro que quieres modificar este curso?')\">Editar</a> ");
+                    out.println("<a href='borrar-curso?id=" + rs.getInt("id") + "' class='btn btn-danger btn-sm' onclick=\"return confirm('¿Seguro que quieres borrar este curso?')\">Borrar</a>");
                 }
                 out.println("</td>");
 

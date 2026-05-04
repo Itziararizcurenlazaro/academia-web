@@ -47,8 +47,8 @@ public class DetalleProfesorServlet extends HttpServlet {
                 out.println("<p><b>ID Supervisor:</b> " + rs.getInt("id_supervisor") + "</p>");
 
                 if ("admin".equals(rol)) {
-                    out.println("<a href='editar-profesor?id=" + id + "' class='btn btn-warning'>Editar</a> ");
-                    out.println("<a href='borrar-profesor?id=" + id + "' class='btn btn-danger'>Borrar</a>");
+                    out.println("<a href='editar-profesor?id=" + rs.getInt("id") + "' class='btn btn-warning btn-sm' onclick=\"return confirm('¿Seguro que quieres modificar este profesor?')\">Editar</a> ");
+                    out.println("<a href='borrar-profesor?id=" + rs.getInt("id") + "' class='btn btn-danger btn-sm' onclick=\"return confirm('¿Seguro que quieres borrar este profesor?')\">Borrar</a>");
                 }
                 out.println("<a href='profesores' class='btn btn-secondary mt-3'>Volver</a>");
 

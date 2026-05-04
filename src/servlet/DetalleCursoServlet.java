@@ -47,8 +47,8 @@ public class DetalleCursoServlet extends HttpServlet {
                 out.println("<p><b>ID Profesor:</b> " + rs.getInt("id_profesor") + "</p>");
 
                 if ("admin".equals(rol)) {
-                    out.println("<a href='editar-curso?id=" + id + "' class='btn btn-warning'>Editar</a> ");
-                    out.println("<a href='borrar-curso?id=" + id + "' class='btn btn-danger'>Borrar</a>");
+                    out.println("<a href='editar-curso?id=" + rs.getInt("id") + "' class='btn btn-warning btn-sm' onclick=\"return confirm('¿Seguro que quieres modificar este curso?')\">Editar</a> ");
+                    out.println("<a href='borrar-curso?id=" + rs.getInt("id") + "' class='btn btn-danger btn-sm' onclick=\"return confirm('¿Seguro que quieres borrar este curso?')\">Borrar</a>");
                 }
                 out.println("<a href='cursos' class='btn btn-secondary mt-3'>Volver</a>");
 
