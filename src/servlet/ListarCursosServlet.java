@@ -23,9 +23,31 @@ public class ListarCursosServlet extends HttpServlet {
         try {
 
             Connection con = DBConnection.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM curso");
+            String nombre = request.getParameter("nombre");
+            String tipo = request.getParameter("tipo");
+            String nivel = request.getParameter("nivel");
+            String precio = request.getParameter("precio");
 
+            String sql = "SELECT * FROM curso WHERE 1=1";
+
+            if (nombre != null && !nombre.isEmpty()) {
+                sql += " AND nombre LIKE '%" + nombre + "%'";
+            }
+
+            if (tipo != null && !tipo.isEmpty()) {
+                sql += " AND tipo_manualidad LIKE '%" + tipo + "%'";
+            }
+
+            if (nivel != null && !nivel.isEmpty()) {
+                sql += " AND nivel = '" + nivel + "'";
+            }
+
+            if (precio != null && !precio.isEmpty()) {
+                sql += " AND precio <= " + precio;
+            }
+
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql);
             out.println("<html>");
             out.println("<head>");
             out.println("<link href='https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/flatly/bootstrap.min.css' rel='stylesheet'>");
@@ -42,6 +64,23 @@ public class ListarCursosServlet extends HttpServlet {
             out.println("<a href='index.html' class='btn btn-outline-secondary mb-3'>← Inicio</a>");
 
             out.println("<h2>Lista de cursos</h2>");
+            out.println("<form method='get' action='cursos' class='mb-3'>");
+
+            out.println("<div class='row'>");
+
+            out.println("<div class='col-md-3'><input name='nombre' class='form-control' placeholder='Nombre'></div>");
+            out.println("<div class='col-md-3'><input name='tipo' class='form-control' placeholder='Tipo'></div>");
+            out.println("<div class='col-md-3'><input name='nivel' class='form-control' placeholder='Nivel'></div>");
+            out.println("<div class='col-md-3'><input name='precio' class='form-control' placeholder='Precio max'></div>");
+
+            out.println("</div>");
+
+            out.println("<div class='mt-2'>");
+            out.println("<button class='btn btn-primary'>Buscar</button>");
+            out.println("<a href='cursos' class='btn btn-secondary ms-2'>Limpiar</a>");
+            out.println("</div>");
+
+            out.println("</form>");
 
             if ("admin".equals(rol)) {
                 out.println("<a href='form-curso.html' class='btn btn-success mb-3'>Nuevo curso</a>");
