@@ -33,6 +33,10 @@ Con tus datos de conexión:
 - String user = "root";
 - String password = "tu_password";
 
+# Base de datos
+Se incluye el archivo academia.sql con la estructura y datos.
+Importar en MySQL antes de ejecutar el proyecto.
+
 # Ejecución
 Importar el proyecto en el IDE
 Configurar Apache Tomcat
