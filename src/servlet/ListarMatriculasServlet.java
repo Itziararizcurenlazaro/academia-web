@@ -24,11 +24,54 @@ public class ListarMatriculasServlet extends HttpServlet {
 
             Connection con = DBConnection.getConnection();
 
-            PreparedStatement ps = con.prepareStatement(
-                    "SELECT m.*, a.nombre AS alumno, c.nombre AS curso FROM matricula m JOIN alumno a ON m.id_alumno = a.id JOIN curso c ON m.id_curso = c.id"
-            );
+            String estado = request.getParameter("estado");
+            String pagado = request.getParameter("pagado");
+            String nota = request.getParameter("nota");
+            String alumno = request.getParameter("id_alumno");
+
+            String sql = "SELECT m.*, a.nombre AS alumno, c.nombre AS curso " +
+                    "FROM matricula m " +
+                    "JOIN alumno a ON m.id_alumno = a.id " +
+                    "JOIN curso c ON m.id_curso = c.id WHERE 1=1";
+
+            if (estado != null && !estado.isEmpty()) {
+                sql += " AND m.estado = ?";
+            }
+
+            if (pagado != null && !pagado.isEmpty()) {
+                sql += " AND m.pagado = ?";
+            }
+
+            if (nota != null && !nota.isEmpty()) {
+                sql += " AND m.nota_final >= ?";
+            }
+
+            if (alumno != null && !alumno.isEmpty()) {
+                sql += " AND m.id_alumno = ?";
+            }
+
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            int i = 1;
+
+            if (estado != null && !estado.isEmpty()) {
+                ps.setString(i++, estado);
+            }
+
+            if (pagado != null && !pagado.isEmpty()) {
+                ps.setInt(i++, Integer.parseInt(pagado));
+            }
+
+            if (nota != null && !nota.isEmpty()) {
+                ps.setDouble(i++, Double.parseDouble(nota));
+            }
+
+            if (alumno != null && !alumno.isEmpty()) {
+                ps.setInt(i++, Integer.parseInt(alumno));
+            }
 
             ResultSet rs = ps.executeQuery();
+
 
             out.println("<html>");
             out.println("<head>");
@@ -46,6 +89,23 @@ public class ListarMatriculasServlet extends HttpServlet {
             out.println("<a href='index.html' class='btn btn-outline-secondary mb-3'>← Inicio</a>");
 
             out.println("<h2>Lista de matriculas</h2>");
+            out.println("<form method='get' action='matriculas' class='mb-3'>");
+
+            out.println("<div class='row'>");
+
+            out.println("<div class='col-md-3'><input name='estado' class='form-control' placeholder='Estado'></div>");
+            out.println("<div class='col-md-3'><input name='pagado' class='form-control' placeholder='Pagado (0/1)'></div>");
+            out.println("<div class='col-md-3'><input name='nota' class='form-control' placeholder='Nota mínima'></div>");
+            out.println("<div class='col-md-3'><input name='id_alumno' class='form-control' placeholder='ID alumno'></div>");
+
+            out.println("</div>");
+
+            out.println("<div class='mt-2'>");
+            out.println("<button class='btn btn-primary'>Buscar</button>");
+            out.println("<a href='matriculas' class='btn btn-secondary ms-2'>Limpiar</a>");
+            out.println("</div>");
+
+            out.println("</form>");
 
             if ("admin".equals(rol)) {
                 out.println("<a href='form-matricula.html' class='btn btn-success mb-3'>Nueva matricula</a>");

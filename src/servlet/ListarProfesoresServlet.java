@@ -23,8 +23,31 @@ public class ListarProfesoresServlet extends HttpServlet {
         try {
 
             Connection con = DBConnection.getConnection();
+            String nombre = request.getParameter("nombre");
+            String apellidos = request.getParameter("apellidos");
+            String email = request.getParameter("email");
+            String especialidad = request.getParameter("especialidad");
+
+            String sql = "SELECT * FROM profesor WHERE 1=1";
+
+            if (nombre != null && !nombre.isEmpty()) {
+                sql += " AND nombre LIKE '%" + nombre + "%'";
+            }
+
+            if (apellidos != null && !apellidos.isEmpty()) {
+                sql += " AND apellidos LIKE '%" + apellidos + "%'";
+            }
+
+            if (email != null && !email.isEmpty()) {
+                sql += " AND email LIKE '%" + email + "%'";
+            }
+
+            if (especialidad != null && !especialidad.isEmpty()) {
+                sql += " AND especialidad LIKE '%" + especialidad + "%'";
+            }
+
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM profesor");
+            ResultSet rs = st.executeQuery(sql);
 
             out.println("<html>");
             out.println("<head>");
@@ -42,6 +65,24 @@ public class ListarProfesoresServlet extends HttpServlet {
             out.println("<a href='index.html' class='btn btn-outline-secondary mb-3'>← Inicio</a>");
 
             out.println("<h2>Lista de profesores</h2>");
+            out.println("<form method='get' action='profesores' class='mb-3'>");
+
+            out.println("<div class='row'>");
+
+            out.println("<div class='col-md-3'><input name='nombre' class='form-control' placeholder='Nombre'></div>");
+            out.println("<div class='col-md-3'><input name='apellidos' class='form-control' placeholder='Apellidos'></div>");
+            out.println("<div class='col-md-3'><input name='email' class='form-control' placeholder='Email'></div>");
+            out.println("<div class='col-md-3'><input name='especialidad' class='form-control' placeholder='Especialidad'></div>");
+
+            out.println("</div>");
+
+            out.println("<div class='mt-2'>");
+            out.println("<button class='btn btn-primary'>Buscar</button>");
+            out.println("<a href='profesores' class='btn btn-secondary ms-2'>Limpiar</a>");
+            out.println("</div>");
+
+            out.println("</form>");
+
             if ("admin".equals(rol)) {
                 out.println("<a href='form-profesor.html' class='btn btn-success mb-3'>Nuevo profesor</a>");
             }
