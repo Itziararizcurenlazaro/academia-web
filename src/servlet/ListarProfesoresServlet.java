@@ -111,8 +111,8 @@ public class ListarProfesoresServlet extends HttpServlet {
                 out.println("<a href='detalle-profesor?id=" + rs.getInt("id") + "' class='btn btn-info btn-sm'>Ver</a> ");
 
                 if ("admin".equals(rol)) {
-                    out.println("<a href='editar-profesor?id=" + rs.getInt("id") + "' class='btn btn-warning btn-sm'>Editar</a> ");
-                    out.println("<a href='borrar-profesor?id=" + rs.getInt("id") + "' class='btn btn-danger btn-sm'>Borrar</a>");
+                    out.println("<a href='editar-profesor?id=" + rs.getInt("id") + "' class='btn btn-warning btn-sm' onclick=\"return confirm('¿Seguro que quieres modificar este profesor?')\">Editar</a> ");
+                    out.println("<a href='borrar-profesor?id=" + rs.getInt("id") + "' class='btn btn-danger btn-sm' onclick=\"return confirm('¿Seguro que quieres borrar este profesor?')\">Borrar</a>");
                 }
                 out.println("</td>");
 

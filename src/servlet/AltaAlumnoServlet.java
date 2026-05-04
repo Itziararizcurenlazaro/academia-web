@@ -34,7 +34,11 @@ public class AltaAlumnoServlet extends HttpServlet {
             Part filePart = request.getPart("foto");
             String fileName = filePart.getSubmittedFileName();
 
-            filePart.write("C:/imagenes/" + fileName);
+            String ruta = getServletContext().getRealPath("/imagenes/");
+
+            if (fileName != null && !fileName.isEmpty()) {
+                filePart.write(ruta + fileName);
+            }
 
             Connection con = DBConnection.getConnection();
 

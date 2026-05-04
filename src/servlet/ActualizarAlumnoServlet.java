@@ -37,7 +37,7 @@ public class ActualizarAlumnoServlet extends HttpServlet {
 
             if (fileName != null && !fileName.isEmpty()) {
 
-                String ruta = getServletContext().getRealPath("") + "imagenes/";
+                String ruta = getServletContext().getRealPath("/imagenes/");
 
                 java.io.File carpeta = new java.io.File(ruta);
                 if (!carpeta.exists()) {

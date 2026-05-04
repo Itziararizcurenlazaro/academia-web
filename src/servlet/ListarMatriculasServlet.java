@@ -135,8 +135,8 @@ public class ListarMatriculasServlet extends HttpServlet {
                 out.println("<a href='detalle-matricula?id=" + rs.getInt("id") + "' class='btn btn-info btn-sm'>Ver</a> ");
 
                 if ("admin".equals(rol)) {
-                    out.println("<a href='editar-matricula?id=" + rs.getInt("id") + "' class='btn btn-warning btn-sm'>Editar</a> ");
-                    out.println("<a href='borrar-matricula?id=" + rs.getInt("id") + "' class='btn btn-danger btn-sm'>Borrar</a>");
+                    out.println("<a href='editar-matricula?id=" + rs.getInt("id") + "' class='btn btn-warning btn-sm' onclick=\"return confirm('¿Seguro que quieres modificar esta matrícula?')\">Editar</a> ");
+                    out.println("<a href='borrar-matricula?id=" + rs.getInt("id") + "' class='btn btn-danger btn-sm' onclick=\"return confirm('¿Seguro que quieres borrar esta matrícula?')\">Borrar</a>");
                 }
                 out.println("</td>");
 

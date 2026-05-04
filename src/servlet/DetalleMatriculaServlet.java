@@ -56,8 +56,8 @@ public class DetalleMatriculaServlet extends HttpServlet {
                 out.println("<p><b>Fecha baja:</b> " + rs.getDate("fecha_baja") + "</p>");
 
                 if ("admin".equals(rol)) {
-                    out.println("<a href='editar-matricula?id=" + id + "' class='btn btn-warning'>Editar</a> ");
-                    out.println("<a href='borrar-matricula?id=" + id + "' class='btn btn-danger'>Borrar</a>");
+                    out.println("<a href='editar-matricula?id=" + rs.getInt("id") + "' class='btn btn-warning btn-sm' onclick=\"return confirm('¿Seguro que quieres modificar esta matrícula?')\">Editar</a> ");
+                    out.println("<a href='borrar-matricula?id=" + rs.getInt("id") + "' class='btn btn-danger btn-sm' onclick=\"return confirm('¿Seguro que quieres borrar esta matrícula?')\">Borrar</a>");
                 }
                 out.println("<a href='matriculas' class='btn btn-secondary mt-3'>Volver</a>");
 
